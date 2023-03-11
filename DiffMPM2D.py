@@ -1,4 +1,4 @@
-
+import matplotlib.pyplot as plt
 import jax.numpy as jnp
 from jax import grad, jit, vmap, lax
 import jax.scipy as jsp
@@ -6,13 +6,13 @@ import jax.scipy.optimize as jsp_opt
 import optax 
 import jaxopt
 from jaxopt import ScipyBoundedMinimize
-import matplotlib.pyplot as plt
+
 import jax
 
 @jit
 def mpm(E):
     # nsteps
-    nsteps = 1
+    nsteps = 10
     
     # mom tolerance
     tol = 1e-12
@@ -270,6 +270,7 @@ def optax_adam(params, niter):
     grads = grad(compute_loss)(params)
     updates, opt_state = optimizer.update(grads, opt_state)
     params = optax.apply_updates(params, updates)
+    print(i, params)
   return params
   
 # Tensor Flow Probability Optimization library
