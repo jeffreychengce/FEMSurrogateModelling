@@ -15,7 +15,7 @@ def mpm(E):
     nsteps = 10
     
     # mom tolerance
-    tol = 1e-12
+    # tol = 1e-12
 
     # Domain length
     Lx = 25
@@ -55,8 +55,8 @@ def mpm(E):
     c  = jnp.sqrt(E/rho)   # speed of sound
     b1 = jnp.pi / (2 * Lx) # beta1
     b2 = jnp.pi / (2 * Ly) # beta2
-    w1 = b1 * c            # omega1
-    w2 = b2 * c            # omega2
+    # w1 = b1 * c            # omega1
+    # w2 = b2 * c            # omega2
     
     # Create material points at the center of each element
     nparticles = nelements  # number of particles
@@ -82,11 +82,11 @@ def mpm(E):
     vel_py   = v0y * jnp.sin(b2 * y_p)
     
     # Time steps and duration
-    dt_crit = jnp.max(jnp.array([dx / c, dy / c]))
+    # dt_crit = jnp.max(jnp.array([dx / c, dy / c]))
     dt = 0.02
     
     # results
-    tt = jnp.zeros(nsteps)
+    # tt = jnp.zeros(nsteps)
     vt = jnp.zeros((nsteps, 2))
     xt = jnp.zeros((nsteps, 2))
     
@@ -235,6 +235,10 @@ def mpm(E):
     
     return vt
 
+from jax.lib import xla_bridge
+print(xla_bridge.get_backend().platform)
+
+print('Calculating target trajectory')
 Etarget = 100
 target = mpm(Etarget)
 
@@ -266,7 +270,7 @@ def optax_adam(params, niter):
 
   # A simple update loop.
   for i in range(niter):
-    print('iteration: ' + i)
+    print('iteration: ', i)
     grads = grad(compute_loss)(params)
     updates, opt_state = optimizer.update(grads, opt_state)
     params = optax.apply_updates(params, updates)
@@ -282,8 +286,9 @@ def tfp_lbfgs(params):
 # Initial model - Young's modulus 
 params = 95.0
 
+print('Running optimizer')
 # vt = tfp_lbfgs(params)               # LBFGS optimizer
-result = optax_adam(params, 1000)     # ADAM optimizer
+result = optax_adam(params, 10)     # ADAM optimizer
 
 """
 f = jax.jit(compute_loss)
