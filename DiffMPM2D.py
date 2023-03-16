@@ -18,15 +18,15 @@ def mpm(E):
     # tol = 1e-12
 
     # Domain length
-    Lx = 25
-    Ly = 25
+    Lx = 1
+    Ly = 1
 
     # Material properties
     rho = 1
 
     # Computational grid
-    nelementsx = 13
-    nelementsy = 13
+    nelementsx = 2
+    nelementsy = 2
     nelements = nelementsx * nelementsy
     
     dx = Lx / nelementsx
@@ -83,7 +83,7 @@ def mpm(E):
     
     # Time steps and duration
     # dt_crit = jnp.max(jnp.array([dx / c, dy / c]))
-    dt = 0.02
+    dt = 0.01
     
     # results
     # tt = jnp.zeros(nsteps)
@@ -241,16 +241,17 @@ print(xla_bridge.get_backend().platform)
 print('Calculating target trajectory')
 Etarget = 100
 target = mpm(Etarget)
-
+print(target)
 
 #############################################################
 #  NOTE: Uncomment the line only for TFP optimizer and 
 #        jaxopt value_and_grad = True
 #############################################################
 # @jax.value_and_grad
-@jit
+
 def compute_loss(E):
     vt = mpm(E)
+    print(vt)
     return jnp.linalg.norm(vt - target)
 
 # BFGS Optimizer
@@ -264,13 +265,14 @@ def jaxopt_bfgs(params, niter):
 # Optimizers
 def optax_adam(params, niter):
   # Initialize parameters of the model + optimizer.
-  start_learning_rate = 1e-1
+  start_learning_rate = 1e-5
   optimizer = optax.adam(start_learning_rate)
   opt_state = optimizer.init(params)
 
   # A simple update loop.
   for i in range(niter):
     print('iteration: ', i)
+    print(compute_loss(params))
     grads = grad(compute_loss)(params)
     updates, opt_state = optimizer.update(grads, opt_state)
     params = optax.apply_updates(params, updates)
@@ -288,7 +290,7 @@ params = 95.0
 
 print('Running optimizer')
 # vt = tfp_lbfgs(params)               # LBFGS optimizer
-result = optax_adam(params, 10)     # ADAM optimizer
+result = optax_adam(params, 1)     # ADAM optimizer
 
 """
 f = jax.jit(compute_loss)
