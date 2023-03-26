@@ -1,0 +1,9 @@
+3/16/22
+    Setup Linux and cuda for jax 
+    Started testing 2D MPM code
+    Finished debugging node and particle initialization
+    Need to implement correct stress updates from particle.tcc (C++ learning curve)
+
+    mpm_explicit
+
+    week of 4/10 ok? Midterm next week, spring break week after, prelim week after
