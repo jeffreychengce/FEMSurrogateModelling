@@ -7,3 +7,6 @@
     mpm_explicit
 
     week of 4/10 ok? Midterm next week, spring break week after, prelim week after
+
+3/30/22
+    status func for computing kinematics?
