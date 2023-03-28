@@ -10,3 +10,6 @@
 
 3/30/22
     status func for computing kinematics?
+    unsure about shape functions
+    tried to implement 2D as closely as possible
+    boundary conditions?
