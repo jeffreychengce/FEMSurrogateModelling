@@ -13,3 +13,15 @@
     unsure about shape functions
     tried to implement 2D as closely as possible
     boundary conditions?
+
+
+E_true = 100
+true_mesh = Mesh1D(13, Material(E_true, 1), 25, jnp.array([0]))
+    
+init_vel = jnp.ones(len(true_mesh.particles.x)) * 0.1
+true_mesh.set_particle_velocity(init_vel)
+dt = 0.02
+nsteps = 2500
+duration = int(dt * nsteps)
+target = true_mesh.solve_jit(nsteps=nsteps, dt=dt, mpm_scheme="USF")
+target_vel = target["velocity"][6]
