@@ -21,3 +21,7 @@ cmake -DCMAKE_CXX_COMPILER=g++ -DKAHIP_ROOT=~/KaHIP/ ..
 make clean && make -j4
 cp -R ~/research/mpm/build_old/mpm-benchmarks/ ~/research/mpm/build/mpm-benchmarks/
 ./mpm -f ./mpm-benchmarks/2d/uniaxial_stress_1p/ -i mpm.json -p 4
+
+strain rate: -0.01
+stress: -0.1 * t
+nodal velocity for strain: -0.01 nodes 3 4, 0 else
