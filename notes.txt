@@ -1,0 +1,27 @@
+3/16/22
+    Setup Linux and cuda for jax 
+    Started testing 2D MPM code
+    Finished debugging node and particle initialization
+    Need to implement correct stress updates from particle.tcc (C++ learning curve)
+
+    mpm_explicit
+
+    week of 4/10 ok? Midterm next week, spring break week after, prelim week after
+
+3/30/22
+    status func for computing kinematics?
+    unsure about shape functions
+    tried to implement 2D as closely as possible
+    boundary conditions?
+
+cd ..
+rm -r build
+mkdir build && cd build
+cmake -DCMAKE_CXX_COMPILER=g++ -DKAHIP_ROOT=~/KaHIP/ ..
+make clean && make -j4
+cp -R ~/research/mpm/build_old/mpm-benchmarks/ ~/research/mpm/build/mpm-benchmarks/
+./mpm -f ./mpm-benchmarks/2d/uniaxial_stress_1p/ -i mpm.json -p 4
+
+strain rate: -0.01
+stress: -0.1 * t
+nodal velocity for strain: -0.01 nodes 3 4, 0 else
